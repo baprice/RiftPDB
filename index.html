@@ -104,7 +104,7 @@
                 object.position.copy(position);
                 object.position.multiplyScalar(20);
                 object.scale.multiplyScalar(5);
-                object.position.set(0, 0, 1500);
+                object.position.set(0, 0, 15);
                 root.add(object);
 
                 var atom = json.atoms[i];
@@ -133,6 +133,7 @@
                 object.position.lerp(end, 0.5);
                 object.scale.set(1, 1, start.distanceTo(end));
                 object.lookAt(end);
+                object.position.set(0, 0, 15);
                 root.add(object);
 
             }
