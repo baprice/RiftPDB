@@ -23,44 +23,8 @@
 
 <body>
 
-    
-    <div id="container" ng-class>
         <canvas id="viewer"></canvas>
 
-
-        <div id="displayOptions">
-            <form role="form">
-                <div class="form-group">
-                    <label for="protein">Protein ID:</label>
-                    <input type="text" class="form-control" id="pid" />
-                </div>
-            </form>
-            <h3>Display Options Here:</h3>
-            <ul> 
-                <li>Colors</li>
-                <li>Labels</li>
-                <li>Structures Shown</li>
-            </ul>
-        </div>
-    </div>
-    <div id="canvas">
-        <h1>RiftPDB</h1>
-        <br />
-        <h2>Project Description:</h2>
-        <p>
-            3DProteinViewer (now RiftPDB) will display the 3D ribbon model of the inputted protein (using a PDB code).  
-            The specified protein structure will be downloaded from the <a href="http://www.rcsb.org/pdb/home/home.do">Protein Data Bank</a> which will then be interpreted and displayed
-            using the <a href="http://web.chemdoodle.com/">ChemDoodle Web Components API</a> (WebGL/Three.js).  The ultimate goal of this project is to make all of this operable within the web browser on the Oculus Rift allowing the user to view the model in virtual reality.
-        </p>
-        <p>
-            <a href="http://brianpeiris.github.io/RiftSketch/">Example of Oculus Rift function in a web browser</a>
-        </p>
-        <h4>Extended Goals:</h4>
-        <ul>
-            <li>Allow manipulation of the protein using keyboard/mouse</li>
-            <li>Display multiple proteins at once</li>
-        </ul>
-    </div>
 </body>
 
 <script>
