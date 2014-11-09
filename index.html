@@ -103,7 +103,7 @@
                 var object = new THREE.Mesh(sphereGeometry, material);
 
                 object.position.copy(position);
-                object.translateZ(-15);
+                object.translateZ(-5);
                 object.position.multiplyScalar(20);
                 object.scale.multiplyScalar(5);
                 root.add(object);
@@ -131,10 +131,10 @@
 
                 var object = new THREE.Mesh(boxGeometry, new THREE.MeshLambertMaterial(0xffffff));
                 object.position.copy(start);
-                object.translateZ(-15);
                 object.position.lerp(end, 0.5);
                 object.scale.set(1, 1, start.distanceTo(end));
                 object.lookAt(end);
+                object.translateZ(-5);
                 root.add(object);
 
             }
