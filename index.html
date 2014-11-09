@@ -110,8 +110,8 @@
                 var object = new THREE.Mesh(sphereGeometry, material);
 
                 object.position.copy(position);
-                object.position.multiplyScalar(7.5);
-                object.scale.multiplyScalar(.5);
+                object.position.multiplyScalar(.75);
+                object.scale.multiplyScalar(.05);
                 root.add(object);
 
                 var atom = json.atoms[i];
@@ -132,13 +132,13 @@
                 var start = geometryBonds.vertices[i];
                 var end = geometryBonds.vertices[i + 1];
 
-                start.multiplyScalar(7.5);
-                end.multiplyScalar(7.5);
+                start.multiplyScalar(.75);
+                end.multiplyScalar(.75);
 
                 var object = new THREE.Mesh(boxGeometry, new THREE.MeshLambertMaterial(0xffffff));
                 object.position.copy(start);
                 object.position.lerp(end, 0.5);
-                object.scale.set(.2, .2, start.distanceTo(end));
+                object.scale.set(.02, .02, start.distanceTo(end));
                 object.lookAt(end);
                 root.add(object);
 
