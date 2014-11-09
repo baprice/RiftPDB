@@ -102,8 +102,8 @@
 
                 var object = new THREE.Mesh(sphereGeometry, material);
                 object.position.copy(position);
-                object.position.multiplyScalar(75);
-                object.scale.multiplyScalar(25);
+                object.position.multiplyScalar(20);
+                object.scale.multiplyScalar(5);
                 root.add(object);
 
                 var atom = json.atoms[i];
@@ -130,7 +130,7 @@
                 var object = new THREE.Mesh(boxGeometry, new THREE.MeshLambertMaterial(0xffffff));
                 object.position.copy(start);
                 object.position.lerp(end, 0.5);
-                object.scale.set(.5, .5, start.distanceTo(end));
+                object.scale.set(1, 1, start.distanceTo(end));
                 object.lookAt(end);
                 root.add(object);
 
