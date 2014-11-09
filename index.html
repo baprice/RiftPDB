@@ -36,6 +36,7 @@
 
     var scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+    camera.translateZ(-3);
     var root;
     var renderer;
     var loader = new THREE.PDBLoader();
