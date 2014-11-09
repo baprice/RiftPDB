@@ -36,7 +36,6 @@
 
     var scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.translateZ(-3);
     var root;
     var renderer;
     var loader = new THREE.PDBLoader();
@@ -111,8 +110,8 @@
                 var object = new THREE.Mesh(sphereGeometry, material);
 
                 object.position.copy(position);
-                object.position.multiplyScalar(.75);
-                object.scale.multiplyScalar(.05);
+                object.position.multiplyScalar(.075);
+                object.scale.multiplyScalar(.005);
                 root.add(object);
 
                 var atom = json.atoms[i];
@@ -133,13 +132,13 @@
                 var start = geometryBonds.vertices[i];
                 var end = geometryBonds.vertices[i + 1];
 
-                start.multiplyScalar(.75);
-                end.multiplyScalar(.75);
+                start.multiplyScalar(.075);
+                end.multiplyScalar(.075);
 
                 var object = new THREE.Mesh(boxGeometry, new THREE.MeshLambertMaterial(0xffffff));
                 object.position.copy(start);
                 object.position.lerp(end, 0.5);
-                object.scale.set(.02, .02, start.distanceTo(end));
+                object.scale.set(.002, .002, start.distanceTo(end));
                 object.lookAt(end);
                 root.add(object);
 
