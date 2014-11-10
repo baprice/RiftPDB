@@ -144,6 +144,7 @@
                 object.position.lerp(end, 0.5);
                 object.scale.set(.002, .002, start.distanceTo(end));
                 object.lookAt(end);
+                object.position.setZ(-.3);
                 root.add(object);
 
             }
