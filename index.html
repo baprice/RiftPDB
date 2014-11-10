@@ -137,9 +137,7 @@
                 var end = geometryBonds.vertices[i + 1];
 
                 start.multiplyScalar(.075);
-                start.translateZ(-.3);
                 end.multiplyScalar(.075);
-                end.translateZ(-.3);
 
                 var object = new THREE.Mesh(boxGeometry, new THREE.MeshLambertMaterial(0xffffff));
                 object.position.copy(start);
