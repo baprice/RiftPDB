@@ -51,7 +51,7 @@
     
 
     renderer.setSize(window.innerWidth, window.innerHeight);
-    document.getElementById('scene').appendChild(renderer.domElement);
+    
 
     /*
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -67,13 +67,7 @@
     };
     window.addEventListener('resize', onResize, false);
     
-    labelRenderer = new THREE.CSS2DRenderer();
-    labelRenderer.setSize(window.innerWidth, window.innerHeight);
-    labelRenderer.domElement.style.position = 'absolute';
-    labelRenderer.domElement.style.top = '0';
-    labelRenderer.domElement.style.pointerEvents = 'none';
-    document.getElementById('scene').appendChild(labelRenderer.domElement);
-    
+
     var light = new THREE.PointLight(0xffffff, 1, 1000);
     scene.add(light);
     var light2 = new THREE.HemisphereLight(0xffffff, 0x000000);
