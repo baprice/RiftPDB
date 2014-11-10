@@ -67,8 +67,7 @@
     };
     window.addEventListener('resize', onResize, false);
 
-    var light = new THREE.HemisphereLight(0xffffff, 0x000000);
-    light.position.set(1, 1, 1);
+    var light = new THREE.PointLight(0xffffff, 1, 1000);
     scene.add(light);
 
     axisHelper = new THREE.AxisHelper(0.060);
