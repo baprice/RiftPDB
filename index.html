@@ -144,7 +144,7 @@
                 object.position.lerp(end, 0.5);
                 object.scale.set(.002, .002, start.distanceTo(end));
                 object.lookAt(end);
-                object.position.setZ(-.3);
+                object.position.z = object.position.z - 0.3;
                 root.add(object);
 
             }
@@ -181,9 +181,9 @@
         }
     
         //
-        // ADD CUBES (blah blah)
+        // REFERENCE CUBES 
         //
-        
+        /*
         var cubeGeo = new THREE.BoxGeometry(0.032, 0.032, 0.032);
         var cubeMesh = new THREE.MeshPhongMaterial({ color: 0x00cc00 });
         // forwards
@@ -242,7 +242,7 @@
         cube.position.set(0.06, -0.03, 0.42);
         scene.add(cube);
         
-
+        */
 
 
     //
@@ -262,7 +262,7 @@
     };
     window.addEventListener("keypress", onkey, true);
     //
-    // MAKE IT GO
+    // MAKE IT SO
     //
     //
     var render = function () {
@@ -274,9 +274,7 @@
     render();
 
     //
-    // Add a debug message Real quick
-    // Prints out when receiving oculus data.
-    //
+    //  Debug
     //
     var receivingPositionalData = false;
     var receivingOrientationData = false;
