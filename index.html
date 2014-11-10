@@ -137,14 +137,15 @@
                 var end = geometryBonds.vertices[i + 1];
 
                 start.multiplyScalar(.075);
+                start.translateZ(-.3);
                 end.multiplyScalar(.075);
+                end.translateZ(-.3);
 
                 var object = new THREE.Mesh(boxGeometry, new THREE.MeshLambertMaterial(0xffffff));
                 object.position.copy(start);
                 object.position.lerp(end, 0.5);
                 object.scale.set(.002, .002, start.distanceTo(end));
                 object.lookAt(end);
-                object.translateZ(-.3);
                 root.add(object);
 
             }
