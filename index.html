@@ -69,6 +69,9 @@
 
     var light = new THREE.PointLight(0xffffff, 1, 1000);
     scene.add(light);
+    var light2 = new THREE.HemisphereLight(0xffffff, 0x000000);
+    light2.position.set(1, 1, 1);
+    scene.add(light2);
 
     axisHelper = new THREE.AxisHelper(0.060);
     axisHelper.position.set(0, -0.03, -0.30);
@@ -109,8 +112,9 @@
                 var object = new THREE.Mesh(sphereGeometry, material);
 
                 object.position.copy(position);
-                object.position.multiplyScalar(.075);
-                object.scale.multiplyScalar(.005);
+                object.position.multiplyScalar(7.5);
+                object.scale.multiplyScalar(.5);
+                object.translateZ(3);
                 root.add(object);
 
                 var atom = json.atoms[i];
@@ -131,13 +135,13 @@
                 var start = geometryBonds.vertices[i];
                 var end = geometryBonds.vertices[i + 1];
 
-                start.multiplyScalar(.075);
-                end.multiplyScalar(.075);
+                start.multiplyScalar(7.5);
+                end.multiplyScalar(7.5);
 
                 var object = new THREE.Mesh(boxGeometry, new THREE.MeshLambertMaterial(0xffffff));
                 object.position.copy(start);
                 object.position.lerp(end, 0.5);
-                object.scale.set(.002, .002, start.distanceTo(end));
+                object.scale.set(.2, .2, start.distanceTo(end));
                 object.lookAt(end);
                 root.add(object);
 
