@@ -81,11 +81,10 @@
     root = new THREE.Object3D();
     scene.add(root);
 
-    var code = location.search.substr(1);
-    if (!code.length) code = '3SN6';
-    var url = 'http://www.pdb.org/pdb/files/' + code + '.pdb';
+    var code = window.location.search.substr(1);
+    
 
-    loadMolecule(url);
+    loadMolecule("molecules/" + code + ".pdb");
 
 
 
