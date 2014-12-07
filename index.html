@@ -82,6 +82,8 @@
     scene.add(root);
 
     var code = window.location.search.substr(1);
+    if(!code)
+        code = "caffeine";
     
 
     loadMolecule("molecules/" + code + ".pdb");
