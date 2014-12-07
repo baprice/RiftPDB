@@ -1,6 +1,6 @@
 <?php
 
-require_once('ormLayer.php');
+require_once('Todo.php');
 
 $path_components = explode('/', $_SERVER['PATH_INFO']);
 
@@ -11,27 +11,27 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
   // GET means either instance look up, index generation, or deletion
 
   // Following matches instance URL in form
-  // /restInterface.php/<id>
+  // /todo.php/<id>
 
   if ((count($path_components) >= 2) &&
       ($path_components[1] != "")) {
 
     // Interpret <id> as integer
-    $current_id = intval($path_components[1]);
+    $todo_id = intval($path_components[1]);
 
     // Look up object via ORM
-    $current = ormLayer::findByID($current_id);
+    $todo = Todo::findByID($todo_id);
 
-    if ($current == null) {
-      // Orm representation not found.
+    if ($todo == null) {
+      // Todo not found.
       header("HTTP/1.0 404 Not Found");
-      print("ormLayer id: " . $current_id . " not found.");
+      print("Todo id: " . $todo_id . " not found.");
       exit();
     }
 
     // Check to see if deleting
     if (isset($_REQUEST['delete'])) {
-      $current->delete();
+      $todo->delete();
       header("Content-type: application/json");
       print(json_encode(true));
       exit();
@@ -40,89 +40,130 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     // Normal lookup.
     // Generate JSON encoding as response
     header("Content-type: application/json");
-    print($current->getJSON());
+    print($todo->getJSON());
     exit();
 
   }
 
   // ID not specified, then must be asking for index
   header("Content-type: application/json");
-  print(json_encode(ormlayer::getAllIDs()));
+  print(json_encode(Todo::getAllIDs()));
   exit();
 
 } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
   // Either creating or updating
 
-  // Following matches /restInterface.php/<id> form
+  // Following matches /todo.php/<id> form
   if ((count($path_components) >= 2) &&
       ($path_components[1] != "")) {
 
     //Interpret <id> as integer and look up via ORM
-    $current_id = intval($path_components[1]);
-    $current = ormlayer::findByID($current_id);
+    $todo_id = intval($path_components[1]);
+    $todo = Todo::findByID($todo_id);
 
-    if ($current == null) {
-      // Orm representation not found.
+    if ($todo == null) {
+      // Todo not found.
       header("HTTP/1.0 404 Not Found");
-      print("Orm Layer id: " . $current_id . " not found while attempting update.");
+      print("Todo id: " . $todo_id . " not found while attempting update.");
       exit();
     }
 
     // Validate values
-    $new_name = false;
-    if (isset($_REQUEST['name'])) {
-      $new_name = trim($_REQUEST['name']);
-      if ($new_name == "") {
-	header("HTTP/1.0 400 Bad Request");
-	print("Bad name");
-	exit();
+    $new_title = false;
+    if (isset($_REQUEST['title'])) {
+      $new_title = trim($_REQUEST['title']);
+      if ($new_title == "") {
+  header("HTTP/1.0 400 Bad Request");
+  print("Bad title");
+  exit();
       }
     }
 
-    
+   
+
+    if (isset($_REQUEST['complete'])) {
+      $new_complete = true;
+    } else {
+      $new_complete = false;
+    }
+
     // Update via ORM
-    if ($new_name) {
-      $current->setName($new_name);
+    if ($new_title) {
+      $todo->setTitle($new_title);
     }
     
-    // Return JSON encoding of updated ormLayer
+
+    // Return JSON encoding of updated Todo
     header("Content-type: application/json");
-    print($current->getJSON());
+    print($todo->getJSON());
     exit();
   } else {
 
     // Creating a new Todo item
 
     // Validate values
-    if (!isset($_REQUEST['name'])) {
+    if (!isset($_REQUEST['title'])) {
       header("HTTP/1.0 400 Bad Request");
-      print("Missing name");
+      print("Missing title");
       exit();
     }
     
-    $name = trim($_REQUEST['name']);
-    if ($name == "") {
+    $title = trim($_REQUEST['title']);
+    if ($title == "") {
       header("HTTP/1.0 400 Bad Request");
-      print("Bad name");
+      print("Bad title");
       exit();
     }
 
-    
+    $note = "";
+    if (isset($_REQUEST['note'])) {
+      $note = trim($_REQUEST['note']);
+    }
 
-    // Create new orm representaiton via ORM
-    $new_current = ormlayer::create($name);
+    $project = "";
+    if (isset($_REQUEST['project'])) {
+      $project = trim($_REQUEST['project']);
+    }
+
+    $due_date = null;
+    if (isset($_REQUEST['due_date'])) {
+      $date_str = trim($_REQUEST['due_date']);
+      if ($date_str != "") {
+  $due_date = new DateTime($date_str);
+      }
+    }
+
+    $priority = 1;
+    if (isset($_REQUEST['priority'])) {
+      $priority = intval($_REQUEST['priority']);
+      if (!($priority > 0 && $priority <= 10)) {
+  header("HTTP/1.0 400 Bad Request");
+  print("Priority value out of range");
+  exit();
+      }
+    }
+
+    if (isset($_REQUEST['complete'])) {
+      $complete = true;
+    } else {
+      $complete = false;
+    }
+
+
+    // Create new Todo via ORM
+    $new_todo = Todo::create($title, $note, $project, $due_date, $priority, $complete);
 
     // Report if failed
-    if ($new_current == null) {
+    if ($new_todo == null) {
       header("HTTP/1.0 500 Server Error");
-      print("Server couldn't create new orm representation.");
+      print("Server couldn't create new todo.");
       exit();
     }
     
-    //Generate JSON encoding of new Orm Representaiton
+    //Generate JSON encoding of new Todo
     header("Content-type: application/json");
-    print($new_current->getJSON());
+    print($new_todo->getJSON());
     exit();
   }
 }
