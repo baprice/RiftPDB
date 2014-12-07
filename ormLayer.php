@@ -4,42 +4,29 @@ date_default_timezone_set('America/New_York');
 class ormLayer
 {
   private $id;
-  private $title;
+  private $name;
+  private $structure;
 
-  public static function create($title, $note, $project, $due_date, $priority, $complete) {
-    $mysqli = new mysqli("***REMOVED***", "kmp", "comp426", "comp426fall14db");
+  public static function create($id,$name,$structure) {
+    $mysqli = new mysqli("***REMOVED***", "***REMOVED***", "***REMOVED***", "***REMOVED***db");
 
-    if ($due_date == null) {
-      $dstr = "null";
-    } else {
-      $dstr = "'" . $due_date->format('Y-m-d') . "'";
-    }
 
-    if ($complete) {
-      $cstr = "1";
-    } else {
-      $cstr = "0";
-    }
-
-    $result = $mysqli->query("insert into a6_Molecules values (0, " .
-           "'" . $mysqli->real_escape_string($title) . "', " .
-           "'" . $mysqli->real_escape_string($note) . "', " .
-           "'" . $mysqli->real_escape_string($project) . "', " .
-           $dstr . ", " .
-           $priority . ", " .
-           $cstr . ")");
+    $result = $mysqli->query("INSERT into a6_Molecules VALUES ( '" . $mysqli->real_escape_string($id) 
+            . "', '" . $mysqli->real_escape_string($name)
+            . "', '" . $mysqli->real_escape_string($structure) . "')");
     
+    var_dump($result);
+
     if ($result) {
-      $id = $mysqli->insert_id;
-      return new ormLayer($id, $title, $note, $project, $due_date, $priority, $complete);
+      return new ormLayer($id, $name, $structure);
     }
     return null;
   }
 
   public static function findByID($id) {
-    $mysqli = new mysqli("***REMOVED***", "kmp", "comp426", "comp426fall14db");
+    $mysqli = new mysqli("***REMOVED***", "***REMOVED***", "***REMOVED***", "***REMOVED***db");
 
-    $result = $mysqli->query("select * from a6_Molecules where id = " . $id);
+    $result = $mysqli->query("SELECT * FROM a6_Molecules where id = " . $id);
     if ($result) {
       if ($result->num_rows == 0) {
   return null;
@@ -47,25 +34,8 @@ class ormLayer
 
       $todo_info = $result->fetch_array();
 
-      if ($todo_info['due_date'] != null) {
-  $due_date = new DateTime($todo_info['due_date']);
-      } else {
-  $due_date = null;
-      }
-
-      if (!$todo_info['complete']) {
-  $complete = false;
-      } else {
-  $complete = true;
-      }
-
-      return new ormLayer(intval($todo_info['id']),
-          $todo_info['title'],
-          $todo_info['note'],
-          $todo_info['project'],
-          $due_date,
-          intval($todo_info['priority']),
-          $complete);
+      return new ormLayer(intval($todo_info['id']), $todo_info['name'],
+          $todo_info['structure']);
     }
     return null;
   }
@@ -84,14 +54,10 @@ class ormLayer
     return $id_array;
   }
 
-  private function __construct($id, $title, $note, $project, $due_date, $priority, $complete) {
+  private function __construct($id, $name, $structure) {
     $this->id = $id;
-    $this->title = $title;
-    $this->note = $note;
-    $this->project = $project;
-    $this->due_date = $due_date;
-    $this->priority = $priority;
-    $this->complete = $complete;
+    $this->name = $name;
+    $this->structure = $structure;
   }
 
   
@@ -131,19 +97,10 @@ class ormLayer
   }
 
   public function getJSON() {
-    if ($this->due_date == null) {
-      $dstr = null;
-    } else {
-      $dstr = $this->due_date->format('Y-m-d');
-    }
 
     $json_obj = array('id' => $this->id,
-          'title' => $this->title,
-          'note' => $this->note,
-          'project' => $this->project,
-          'due_date' => $dstr,
-          'priority' => $this->priority,
-          'complete' => $this->complete);
+          'name' => $this->name,
+          'structure' => $this->structure);
     return json_encode($json_obj);
   }
 }

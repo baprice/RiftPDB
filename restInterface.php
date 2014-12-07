@@ -1,6 +1,6 @@
 <?php
 
-require_once('Todo.php');
+require_once('ormLayer.php');
 
 $path_components = explode('/', $_SERVER['PATH_INFO']);
 
@@ -20,12 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $todo_id = intval($path_components[1]);
 
     // Look up object via ORM
-    $todo = Todo::findByID($todo_id);
+    $todo = ormLayer::findByID($todo_id);
 
     if ($todo == null) {
-      // Todo not found.
+      // ormLayer not found.
       header("HTTP/1.0 404 Not Found");
-      print("Todo id: " . $todo_id . " not found.");
+      print("ormLayer id: " . $todo_id . " not found.");
       exit();
     }
 
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
   // ID not specified, then must be asking for index
   header("Content-type: application/json");
-  print(json_encode(Todo::getAllIDs()));
+  print(json_encode(ormLayer::getAllIDs()));
   exit();
 
 } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -60,12 +60,12 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
     //Interpret <id> as integer and look up via ORM
     $todo_id = intval($path_components[1]);
-    $todo = Todo::findByID($todo_id);
+    $todo = ormLayer::findByID($todo_id);
 
     if ($todo == null) {
-      // Todo not found.
+      // ormLayer not found.
       header("HTTP/1.0 404 Not Found");
-      print("Todo id: " . $todo_id . " not found while attempting update.");
+      print("ormLayer id: " . $todo_id . " not found while attempting update.");
       exit();
     }
 
@@ -94,66 +94,57 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     }
     
 
-    // Return JSON encoding of updated Todo
+    // Return JSON encoding of updated ormLayer
     header("Content-type: application/json");
     print($todo->getJSON());
     exit();
   } else {
 
-    // Creating a new Todo item
+    // Creating a new ormLayer item
 
     // Validate values
-    if (!isset($_REQUEST['title'])) {
+    if (!isset($_REQUEST['id'])) {
       header("HTTP/1.0 400 Bad Request");
-      print("Missing title");
+      print("Missing id");
       exit();
     }
     
-    $title = trim($_REQUEST['title']);
-    if ($title == "") {
+    $id = trim($_REQUEST['id']);
+    if ($id == "") {
       header("HTTP/1.0 400 Bad Request");
-      print("Bad title");
+      print("Bad id");
+      exit();
+    } 
+
+    if (!isset($_REQUEST['name'])) {
+      header("HTTP/1.0 400 Bad Request");
+      print("Missing name");
+      exit();
+    }
+    
+    $name = trim($_REQUEST['name']);
+    if ($name == "") {
+      header("HTTP/1.0 400 Bad Request");
+      print("Bad name");
       exit();
     }
 
-    $note = "";
-    if (isset($_REQUEST['note'])) {
-      $note = trim($_REQUEST['note']);
+    if (!isset($_REQUEST['structure'])) {
+      header("HTTP/1.0 400 Bad Request");
+      print("Missing structure");
+      exit();
     }
-
-    $project = "";
-    if (isset($_REQUEST['project'])) {
-      $project = trim($_REQUEST['project']);
+    
+    $structure = trim($_REQUEST['structure']);
+    if ($structure == "") {
+      header("HTTP/1.0 400 Bad Request");
+      print("Bad structure");
+      exit();
     }
+    
 
-    $due_date = null;
-    if (isset($_REQUEST['due_date'])) {
-      $date_str = trim($_REQUEST['due_date']);
-      if ($date_str != "") {
-  $due_date = new DateTime($date_str);
-      }
-    }
-
-    $priority = 1;
-    if (isset($_REQUEST['priority'])) {
-      $priority = intval($_REQUEST['priority']);
-      if (!($priority > 0 && $priority <= 10)) {
-  header("HTTP/1.0 400 Bad Request");
-  print("Priority value out of range");
-  exit();
-      }
-    }
-
-    if (isset($_REQUEST['complete'])) {
-      $complete = true;
-    } else {
-      $complete = false;
-    }
-
-
-    // Create new Todo via ORM
-    $new_todo = Todo::create($title, $note, $project, $due_date, $priority, $complete);
-
+    // Create new ormLayer via ORM
+    $new_todo = ormLayer::create($id, $name, $structure);
     // Report if failed
     if ($new_todo == null) {
       header("HTTP/1.0 500 Server Error");
@@ -161,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
       exit();
     }
     
-    //Generate JSON encoding of new Todo
+    //Generate JSON encoding of new ormLayer
     header("Content-type: application/json");
     print($new_todo->getJSON());
     exit();

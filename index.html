@@ -81,7 +81,11 @@
     root = new THREE.Object3D();
     scene.add(root);
 
-    loadMolecule("molecules/caffeine.pdb");
+    var code = location.search.substr(1);
+    if (!code.length) code = '3SN6';
+    var url = 'http://www.pdb.org/pdb/files/' + code + '.pdb';
+
+    loadMolecule(url);
 
 
 
