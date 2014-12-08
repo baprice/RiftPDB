@@ -120,7 +120,7 @@
                 object.position.copy(position);
                 object.position.multiplyScalar(.150);
                 object.scale.multiplyScalar(.010);
-                object.translateZ(-.8);
+                object.translateZ(-.6);
                 root.add(object);
 
                 var atom = json.atoms[i];
@@ -149,7 +149,7 @@
                 object.position.lerp(end, 0.5);
                 object.scale.set(.001, .001, start.distanceTo(end));
                 object.lookAt(end);
-                object.position.z = object.position.z - 0.8;
+                object.position.z = object.position.z - 0.6;
                 root.add(object);
 
             }
