@@ -55,9 +55,9 @@ THREE.VRControls = function (object, callback) {
         if (state.position !== null) {
             // console.log(object.position.x);
             //object.position.copy(state.position);
-            object.position.x = state.position.x*3;
-            object.position.y = state.position.y*3;
-            object.position.z = state.position.z*3;
+            object.position.x = state.position.x*2;
+            object.position.y = state.position.y*2 + 0.1;
+            object.position.z = state.position.z*2;
         }
 
     };
