@@ -8,7 +8,7 @@ class ormLayer
   private $structure;
 
   public static function create($id,$name,$structure) {
-    $mysqli = new mysqli("***REMOVED***", "***REMOVED***", "***REMOVED***", "***REMOVED***db");
+    $mysqli = new mysqli("#", "#", "#", "#");
 
 
     $result = $mysqli->query("INSERT into a6_Molecules VALUES ( '" . $mysqli->real_escape_string($id) 
@@ -24,7 +24,7 @@ class ormLayer
   }
 
   public static function findByID($id) {
-    $mysqli = new mysqli("***REMOVED***", "***REMOVED***", "***REMOVED***", "***REMOVED***db");
+    $mysqli = new mysqli("#", "#", "#", "#");
 
     $result = $mysqli->query("SELECT * FROM a6_Molecules where id = " . $id);
     if ($result) {
@@ -41,7 +41,7 @@ class ormLayer
   }
 
   public static function getAllIDs() {
-    $mysqli = new mysqli("***REMOVED***", "***REMOVED***", "***REMOVED***", "***REMOVED***db");
+    $mysqli = new mysqli("#", "#", "#", "#");
 
     $result = $mysqli->query("SELECT id FROM a6_Molecules");
     $id_array = array();
@@ -63,7 +63,7 @@ class ormLayer
   
 
   private function update() {
-    $mysqli = new mysqli("***REMOVED***", "***REMOVED***", "***REMOVED***", "***REMOVED***db");
+    $mysqli = new mysqli("#", "#", "#", "#");
 
     if ($this->due_date == null) {
       $dstr = "null";
@@ -92,7 +92,7 @@ class ormLayer
   }
 
   public function delete() {
-    $mysqli = new mysqli("***REMOVED***", "***REMOVED***", "***REMOVED***", "***REMOVED***db");
+    $mysqli = new mysqli("#", "#", "#", "#");
     $mysqli->query("delete from a6_Molecules where id = " . $this->id);
   }
 
